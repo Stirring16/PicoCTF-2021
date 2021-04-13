@@ -101,7 +101,100 @@ So we got the flag: picoCTF{qu1t3_a_v13w_2020}
 ![164688110_301630531515610_875587652764779898_n](https://user-images.githubusercontent.com/62060867/113094641-3de3a200-921c-11eb-8926-464d7bb8bd1f.png)
 
 * Open ```Wireshark``` to see ```shark1.pcapng```
-* Phân tích các luồng của TCP và HTTP,
+* Phân tích các luồng của TCP và HTTP
+* Hầu hết traffic đều được mã hóa Kerberos, và có một packet chứa ```text/html```
+
+![download](https://user-images.githubusercontent.com/62060867/113904417-429bed80-97fc-11eb-861c-248ddc802937.png)
+
+* Follow ```HTTP stream 537``` ta có một đoạn mã hóa 
+
+![168911334_732651690949977_2141637927140596849_n](https://user-images.githubusercontent.com/62060867/113904780-a4f4ee00-97fc-11eb-8f95-a186b5bd2b60.png)
+
+ ```Gur synt vf cvpbPGS{c33xno00_1_f33_h_qrnqorrs}```
+ 
+* Quăng lên ```Multisolves``` 
+
+![167127681_730852357587066_5881762056687373651_n](https://user-images.githubusercontent.com/62060867/113905270-29477100-97fd-11eb-91f4-b7f5d37cbf47.png)
+
+So we got the flag :D
+
+> # 5. Trivial Flag Transfer Protocol
+
+* Hint: What are some other ways to hide data?
+* [flag]()
+
+![168837760_436928107595325_5013312693557380805_n](https://user-images.githubusercontent.com/62060867/113905908-d91cde80-97fd-11eb-9179-42550ceb4202.png)
+
+* Đầu tiên mở ```Wireshark``` xem ta có gì
+
+![169297543_473903980714668_6282967211736740508_n](https://user-images.githubusercontent.com/62060867/113906705-b8a15400-97fe-11eb-9a48-7dc4df6f6b18.png)
+
+* TFTP hmmm.... TFTP là viết tắt của Trivial File Transfer Protocol, là 1 giao thức truyền file đơn giản. Hmm để xem ta có gì nào, select: ```File -> Export Objects -> TFTP``` 
+
+![download (1)](https://user-images.githubusercontent.com/62060867/113907116-2f3e5180-97ff-11eb-9e4a-de36bc78cf6b.png)
+
+* Save all và check các file
+
+* Đầu tiên check 2 file ```Instruction.txt and Plan```
+
+![167157233_460315035422327_5401500803605554920_n](https://user-images.githubusercontent.com/62060867/113908594-eab3b580-9800-11eb-9484-a80752695aef.png)
+
+* ROT13?? Yep, Decode Rot13 ta được:
+
+```
+TFTP DOESNT ENCRYPT OUR TRAFFIC SO WE MUST DISGUISEOUR FLAG TRANSFER. FIGURE OUT AWAY TO HIDE THE FLAG AND I WILL CHECK BACK FOR THE PLAN
+
+   I USED THE PROGRAM AND HID IT WITH -DUEDILIGENCE. CHECK OUT THE PHOTOS
+```
+   
+ * Tiếp tục check file .Deb
+ 
+ ![168457542_1898200430343612_6065637012453202765_n](https://user-images.githubusercontent.com/62060867/113955327-b6161d00-9845-11eb-9954-1843d24e2dbd.png)
+
+* Steghide? Theo hint thì mình đoán được Steghide là công cụ sử dụng để hide data trong 3 file bmp.
+
+* Việc tiếp theo chỉ cần tìm ```Passphrase```. Nhìn lại đoạn decode trên ```HID IT WITH -DUEDILIGENCE```, có lẽ đây là Passphrase. 
+* Thử DUEDILIGENCE với từng file bmp và....
+
+![170066167_2927712374140759_3640017285400063701_n](https://user-images.githubusercontent.com/62060867/113955949-e6aa8680-9846-11eb-9b27-40eaf6bf0f50.png)
+
+So we got the flag
+
+> # 6. Wireshark twoo twooo two twoo...
+Hint1: Did you really find _the_ flag?
+Hint2: Look for traffic that seems suspicious.
+[shark2.pcapng]()
+
+![168821344_959773858208974_7624007569779743192_n](https://user-images.githubusercontent.com/62060867/113959063-6129d500-984c-11eb-8637-fe47a5b43361.png)
+
+* Sau khi phân tích và kiểm tra tất cả Stream, mình thấy có rất nhiều Flag giả gây nhiễu
+* Ở ```HTTP Object list``` có 89 file flag, mình thử random submit thử vài Flag nhưng vô ích.
+
+![168950366_778626423072533_4084078386040631460_n](https://user-images.githubusercontent.com/62060867/113959734-971b8900-984d-11eb-914a-e8b26bd33729.png)
+
+* Check tiếp DNS có rất nhiều Domain ```reddshrimpandherring.com``` chứa encoded flag bằng base64, thử decode bằng submit nhưng vẫn incorrect 
+
+![download (2)](https://user-images.githubusercontent.com/62060867/113961542-6db02c80-9850-11eb-89c9-381ea7805e55.png)
+
+* Sau đó mình nhận thấy các DNS cuối cùng thay đối Destination từ ```8.8.8.8``` đến ```18.217.1.57``` và có domain là ```fQ==reddshrimpandherring.com```
+* Dùng filter để lọc các Destination 
+
+
+
+
+
+
+   
+   
+
+
+
+
+
+
+
+
+
 
 
 
